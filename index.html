@@ -8,7 +8,7 @@
 <meta name="description" content="Kirk Adison M. Tolentino — BS Information Technology graduate from Mindoro State University.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Sora:wght@300;400;500;600;700;800&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <style>
 /* ─────────────────────────────────────
@@ -39,9 +39,12 @@
   --r:         16px;
   --r-sm:      10px;
   --font:      'Sora', system-ui, -apple-system, sans-serif;
+  --font-display: 'Fraunces', 'Sora', serif;
   --mono:      'DM Mono', monospace;
   --ease:      cubic-bezier(.4,0,.2,1);
   --ease-spring: cubic-bezier(.34,1.56,.64,1);
+  --ink:       #14181F;
+  --ink2:      #1E2430;
 }
 
 [data-theme="dark"] {
@@ -679,91 +682,187 @@ a.dropdown-item { text-decoration: none; color: inherit; display: flex; }
 .hobby-item:hover i { transform: scale(1.2); }
 
 /* ─────────────────────────────────────
-   PROJECTS
+   UI DESIGN SHOWCASE (signature section)
 ───────────────────────────────────── */
-.project-card {
-  background: var(--surface2);
-  border-radius: 12px;
-  padding: 20px;
-  transition: all .25s var(--ease);
-  border: 1px solid var(--border);
+.showcase-card { padding: 30px 30px 34px; }
+.showcase-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.showcase-head .card-label { margin-bottom: 0; padding-bottom: 0; border-bottom: none; width: auto; }
+.showcase-eyebrow-wrap { flex: 1; min-width: 220px; }
+.showcase-intro {
+  font-size: .86rem;
+  color: var(--sub);
+  max-width: 420px;
+  line-height: 1.6;
+}
+.showcase-count {
+  font-family: var(--mono);
+  font-size: .72rem;
+  color: var(--muted);
+  letter-spacing: .5px;
+  white-space: nowrap;
+  padding-bottom: 2px;
+}
+
+.showcase-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+.showcase-tile {
   position: relative;
+  border-radius: 14px;
   overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--ink);
+  cursor: pointer;
+  padding: 0;
+  display: block;
+  width: 100%;
+  aspect-ratio: 4/3;
+  transition: transform .3s var(--ease), box-shadow .3s var(--ease), border-color .3s var(--ease);
 }
-.project-card::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--primary), var(--accent));
-  transform: scaleX(0);
-  transition: transform .3s var(--ease);
-}
-.project-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--primary);
+.showcase-tile:hover {
+  transform: translateY(-3px);
   box-shadow: var(--shadow-lg);
-  background: var(--surface);
+  border-color: var(--gold);
+  z-index: 2;
 }
-.project-card:hover::after { transform: scaleX(1); }
-.project-icon {
-  width: 44px; height: 44px;
-  background: linear-gradient(135deg, var(--primary), var(--accent));
-  border-radius: 11px;
+.showcase-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .5s var(--ease);
+  position: relative;
+  z-index: 1;
+}
+.showcase-tile:hover img { transform: scale(1.045); }
+
+/* Empty / placeholder state — shown until a real image is dropped in */
+.tile-placeholder {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(214,158,46,.14), transparent 55%),
+    linear-gradient(155deg, var(--ink), var(--ink2));
+  color: #8A93A6;
+  text-align: center;
+  padding: 14px;
+}
+.showcase-tile.empty .tile-placeholder { display: flex; }
+.showcase-tile.empty img { display: none; }
+.tile-placeholder i { font-size: 1.3rem; color: var(--gold); opacity: .85; }
+.tile-placeholder span {
+  font-family: var(--mono);
+  font-size: .66rem;
+  letter-spacing: .4px;
+  line-height: 1.5;
+  max-width: 160px;
+}
+
+.tile-caption {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  z-index: 2;
+  padding: 16px 16px 14px;
+  background: linear-gradient(0deg, rgba(10,12,16,.92) 0%, rgba(10,12,16,.55) 55%, transparent 100%);
+  transform: translateY(6px);
+  opacity: .92;
+  transition: transform .3s var(--ease), opacity .3s var(--ease);
+}
+.showcase-tile:hover .tile-caption { transform: translateY(0); opacity: 1; }
+.tile-tag {
+  display: block;
+  font-family: var(--mono);
+  font-size: .64rem;
+  font-weight: 500;
+  letter-spacing: .6px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 3px;
+}
+.tile-title {
+  display: block;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: #F5F6F8;
+  letter-spacing: -.2px;
+  line-height: 1.25;
+}
+.tile-view {
+  position: absolute;
+  top: 12px; right: 12px;
+  z-index: 2;
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: rgba(20,24,31,.55);
+  border: 1px solid rgba(255,255,255,.18);
+  backdrop-filter: blur(6px);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 14px;
-  font-size: 1.2rem;
   color: #fff;
-  box-shadow: 0 4px 12px rgba(43,108,176,.25);
+  font-size: .75rem;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity .25s var(--ease), transform .25s var(--ease);
 }
-.project-title {
-  font-size: .96rem;
-  font-weight: 700;
-  margin-bottom: 7px;
-  color: var(--text);
-  letter-spacing: -.15px;
-}
-.project-desc {
-  font-size: .82rem;
-  color: var(--sub);
-  line-height: 1.55;
-  margin-bottom: 13px;
-}
-.project-tech {
+.showcase-tile:hover .tile-view { opacity: 1; transform: translateY(0); }
+
+/* Showcase project modal */
+.showcase-modal { max-width: 760px; padding: 0; }
+.showcase-modal-header {
+  padding: 22px 30px;
+  border-bottom: 1px solid var(--border);
   display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-  margin-bottom: 14px;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
 }
-.tech-tag {
-  background: rgba(43,108,176,.08);
-  color: var(--primary);
-  border: 1px solid rgba(43,108,176,.15);
-  padding: 3px 9px;
-  border-radius: 5px;
+.showcase-modal-heading { min-width: 0; }
+.showcase-modal-tag {
+  display: block;
+  font-family: var(--mono);
   font-size: .68rem;
   font-weight: 600;
-  font-family: var(--mono);
-  letter-spacing: .3px;
-}
-[data-theme="dark"] .tech-tag {
-  background: rgba(88,166,255,.1);
-  border-color: rgba(88,166,255,.2);
-}
-.project-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
+  letter-spacing: .6px;
+  text-transform: uppercase;
   color: var(--primary);
-  font-size: .82rem;
-  font-weight: 700;
-  text-decoration: none;
-  transition: gap .2s;
-  letter-spacing: .2px;
+  margin-bottom: 4px;
 }
-.project-link:hover { gap: 9px; }
+.showcase-modal-title {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 1.3rem;
+  letter-spacing: -.3px;
+  color: var(--text);
+  line-height: 1.25;
+}
+.showcase-modal-body { padding: 24px 30px 30px; }
+.showcase-modal-image {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  background: var(--ink);
+}
+.showcase-modal-image img { width: 100%; display: block; }
+
 
 /* ─────────────────────────────────────
    CONTACT
@@ -898,6 +997,7 @@ a.dropdown-item { text-decoration: none; color: inherit; display: flex; }
   font-size: .85rem;
   color: var(--sub);
   transition: all .18s;
+  flex-shrink: 0;
 }
 .close-btn:hover {
   background: var(--surface3);
@@ -1017,6 +1117,9 @@ a.dropdown-item { text-decoration: none; color: inherit; display: flex; }
 /* ─────────────────────────────────────
    RESPONSIVE
 ───────────────────────────────────── */
+@media (max-width: 1024px) {
+  .showcase-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+}
 @media (max-width: 768px) {
   body { padding: 24px 14px 60px; }
   .card { padding: 22px 24px; }
@@ -1042,6 +1145,19 @@ a.dropdown-item { text-decoration: none; color: inherit; display: flex; }
   }
   .cert-modal-header { padding: 20px 22px; }
   .cert-modal-body { padding: 22px; }
+  .showcase-grid { grid-template-columns: repeat(2, 1fr); }
+  .showcase-count { display: none; }
+  .showcase-modal-header { padding: 18px 20px; }
+  .showcase-modal-body { padding: 18px 20px 24px; }
+}
+
+@media (max-width: 520px) {
+  .showcase-grid { grid-template-columns: 1fr; gap: 12px; }
+  .showcase-tile { aspect-ratio: 16/10; }
+  .showcase-card { padding: 22px 20px 26px; }
+  .showcase-head { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .tile-title { font-size: 1.1rem; }
+  .tile-view { width: 32px; height: 32px; opacity: 1; transform: none; }
 }
 </style>
 </head>
@@ -1253,43 +1369,86 @@ a.dropdown-item { text-decoration: none; color: inherit; display: flex; }
     </div>
   </div>
 
-  <!-- ── PROJECTS ── -->
-  <div class="card">
-    <div class="card-label">Featured Projects</div>
-    <div class="grid-3">
-      <div class="project-card">
-        <div class="project-icon"><i class="fas fa-music"></i></div>
-        <div class="project-title">SpotiNode</div>
-        <div class="project-desc">A comprehensive music streaming application with user playlists, payment integration for subscriptions, and an admin control panel</div>
-        <div class="project-tech">
-          <span class="tech-tag">nodejs</span>
-          <span class="tech-tag">MySQL</span>
-          <span class="tech-tag">JavaScript</span>
-        </div>
-        <a href="https://github.com/kirktolentino/spotify" class="project-link">View Repository <i class="fas fa-arrow-right" style="font-size:.7rem"></i></a>
+  <!-- ── UI DESIGN SHOWCASE ──
+       To add your own work:
+       1. Replace each <img src="..."> below with the path to your image
+          (e.g. assets/images/design/showcase-1.jpg).
+       2. Update data-title / data-tag on the tile so the modal shows the
+          right project name when clicked.
+       If an image fails to load, the tile automatically shows a placeholder —
+       nothing to delete, just drop your files in and point src at them.
+  -->
+  <div class="card showcase-card">
+    <div class="showcase-head">
+      <div class="showcase-eyebrow-wrap">
+        <div class="card-label">UI Design</div>
+        <p class="showcase-intro">A collection of my mobile app design projects, showcasing my approach to UI/UX and user-centered design.</p>
       </div>
-      <div class="project-card">
-        <div class="project-icon"><i class="fa-solid fa-clipboard-user"></i></div>
-        <div class="project-title">Attendance Monitoring</div>
-        <div class="project-desc">A full-featured attendance management system built with MVC architecture, including tracking, reporting, and an admin dashboard.</div>
-        <div class="project-tech">
-          <span class="tech-tag">Node.js</span>
-          <span class="tech-tag">Vue.js</span>
-          <span class="tech-tag">SQL</span>
-        </div>
-        <a href="https://github.com/kirktolentino/Attendance-w-MVC" class="project-link">View Project <i class="fas fa-arrow-right" style="font-size:.7rem"></i></a>
-      </div>
-      <div class="project-card">
-        <div class="project-icon"><i class="fas fa-chart-line"></i></div>
-        <div class="project-title">Analytics Dashboard</div>
-        <div class="project-desc">Interactive dashboard with real-time data visualization and reports.</div>
-        <div class="project-tech">
-          <span class="tech-tag">React</span>
-          <span class="tech-tag">Chart.js</span>
-          <span class="tech-tag">Firebase</span>
-        </div>
-        <a href="#" class="project-link">View Project <i class="fas fa-arrow-right" style="font-size:.7rem"></i></a>
-      </div>
+      <span class="showcase-count">06 SELECTED WORKS</span>
+    </div>
+
+    <div class="showcase-grid">
+
+      <button type="button" class="showcase-tile" data-img="assets/images/prj1.png" data-tag="Mobile App · UI/UX" data-title="Minimalist Music app">
+        <img src="assets/images/prj1.png" alt="Minimalist Music app" onerror="this.closest('.showcase-tile').classList.add('empty')">
+        <span class="tile-placeholder"><i class="fas fa-image"></i><span>Add prj1.png</span></span>
+        <span class="tile-view"><i class="fas fa-expand"></i></span>
+        <span class="tile-caption">
+          <span class="tile-tag">Mobile App · UI/UX</span>
+          <span class="tile-title">Minimalist Music app</span>
+        </span>
+      </button>
+
+      <button type="button" class="showcase-tile" data-img="assets/images/prj2.png" data-tag="Mobile App · UI" data-title="Financial Dashboard">
+        <img src="assets/images/prj2.png" alt="Financial Dashboard" onerror="this.closest('.showcase-tile').classList.add('empty')">
+        <span class="tile-placeholder"><i class="fas fa-image"></i><span>Add prj2.png</span></span>
+        <span class="tile-view"><i class="fas fa-expand"></i></span>
+        <span class="tile-caption">
+          <span class="tile-tag">Mobile App · UI</span>
+          <span class="tile-title">Financial Dashboard</span>
+        </span>
+      </button>
+
+      <button type="button" class="showcase-tile" data-img="assets/images/prj3.png" data-tag="Mobile App · UI" data-title="Fitness App">
+        <img src="assets/images/prj3.png" alt="Fitness App" onerror="this.closest('.showcase-tile').classList.add('empty')">
+        <span class="tile-placeholder"><i class="fas fa-image"></i><span>Add prj3.png</span></span>
+        <span class="tile-view"><i class="fas fa-expand"></i></span>
+        <span class="tile-caption">
+          <span class="tile-tag">Mobile App · UI</span>
+          <span class="tile-title">Fitness App</span>
+        </span>
+      </button>
+
+      <button type="button" class="showcase-tile" data-img="assets/images/prj4.png" data-tag="Mobile App · UI" data-title="Finance App">
+        <img src="assets/images/prj4.png" alt="Finance App" onerror="this.closest('.showcase-tile').classList.add('empty')">
+        <span class="tile-placeholder"><i class="fas fa-image"></i><span>Add prj4.png</span></span>
+        <span class="tile-view"><i class="fas fa-expand"></i></span>
+        <span class="tile-caption">
+          <span class="tile-tag">Mobile App · UI</span>
+          <span class="tile-title">Finance App</span>
+        </span>
+      </button>
+
+      <button type="button" class="showcase-tile" data-img="assets/images/prj5.png" data-tag="Mobile App · UI" data-title="Food Delivery App">
+        <img src="assets/images/prj5.png" alt="Food Delivery App" onerror="this.closest('.showcase-tile').classList.add('empty')">
+        <span class="tile-placeholder"><i class="fas fa-image"></i><span>Add prj5.png</span></span>
+        <span class="tile-view"><i class="fas fa-expand"></i></span>
+        <span class="tile-caption">
+          <span class="tile-tag">Mobile App · UI</span>
+          <span class="tile-title">Food Delivery App</span>
+        </span>
+      </button>
+
+      <button type="button" class="showcase-tile" data-img="assets/images/prj6.png" data-tag="Mobile App · UI" data-title="Project Six">
+        <img src="assets/images/prj6.png" alt="Project Six" onerror="this.closest('.showcase-tile').classList.add('empty')">
+        <span class="tile-placeholder"><i class="fas fa-image"></i><span>Add prj6.png</span></span>
+        <span class="tile-view"><i class="fas fa-expand"></i></span>
+        <span class="tile-caption">
+          <span class="tile-tag">Mobile App · UI</span>
+          <span class="tile-title"></span>
+        </span>
+      </button>
+
     </div>
   </div>
 
@@ -1324,6 +1483,24 @@ a.dropdown-item { text-decoration: none; color: inherit; display: flex; }
   </div>
 
   <p class="footer-text">© 2026 Kirk Adison M. Tolentino &nbsp;·&nbsp; BS Information Technology &nbsp;·&nbsp; Mindoro State University</p>
+</div>
+
+<!-- ── SHOWCASE PROJECT MODAL ── -->
+<div class="overlay" id="showcaseOverlay">
+  <div class="modal showcase-modal">
+    <div class="showcase-modal-header">
+      <div class="showcase-modal-heading">
+        <span class="showcase-modal-tag" id="showcaseModalTag">Mobile App · UI</span>
+        <h3 class="showcase-modal-title" id="showcaseModalTitle">Project Title</h3>
+      </div>
+      <button class="close-btn" id="closeShowcaseModal">✕</button>
+    </div>
+    <div class="showcase-modal-body">
+      <div class="showcase-modal-image">
+        <img id="showcaseModalImage" src="" alt="">
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- ── CERTIFICATE MODAL ── -->
@@ -1465,6 +1642,28 @@ document.getElementById('closeCertModal').addEventListener('click', () => closeC
 certOverlay.addEventListener('click', e => { if (e.target === certOverlay) closeCert(); });
 function closeCert() { certOverlay.classList.remove('open'); document.body.style.overflow = ''; }
 
+// ── Showcase project modal ────────────────────
+const showcaseOverlay    = document.getElementById('showcaseOverlay');
+const showcaseModalImage = document.getElementById('showcaseModalImage');
+const showcaseModalTitle = document.getElementById('showcaseModalTitle');
+const showcaseModalTag   = document.getElementById('showcaseModalTag');
+
+document.querySelectorAll('.showcase-tile').forEach(tile => {
+  tile.addEventListener('click', () => {
+    // Skip opening the modal for tiles that don't have an image yet
+    if (tile.classList.contains('empty')) return;
+    showcaseModalImage.src   = tile.dataset.img;
+    showcaseModalImage.alt   = tile.dataset.title || '';
+    showcaseModalTitle.textContent = tile.dataset.title || 'Untitled Project';
+    showcaseModalTag.textContent   = tile.dataset.tag || '';
+    showcaseOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  });
+});
+document.getElementById('closeShowcaseModal').addEventListener('click', () => closeShowcase());
+showcaseOverlay.addEventListener('click', e => { if (e.target === showcaseOverlay) closeShowcase(); });
+function closeShowcase() { showcaseOverlay.classList.remove('open'); document.body.style.overflow = ''; }
+
 // ── Contact modal ─────────────────────────────
 const contactOverlay = document.getElementById('contactOverlay');
 document.getElementById('openContact').addEventListener('click', () => {
@@ -1477,7 +1676,7 @@ function closeContact() { contactOverlay.classList.remove('open'); document.body
 
 document.addEventListener('keydown', e => {
   if (e.key !== 'Escape') return;
-  closeContact(); closeCert();
+  closeContact(); closeCert(); closeShowcase();
 });
 
 // ── Formspree AJAX submit ─────────────────────
